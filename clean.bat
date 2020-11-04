@@ -1,5 +1,11 @@
-FOR /F "tokens=*" %%G IN ('DIR /B /AD /S arm') DO RMDIR /S /Q "%%G"
-FOR /F "tokens=*" %%G IN ('DIR /B /AD /S x86') DO RMDIR /S /Q "%%G"
-FOR /F "tokens=*" %%G IN ('DIR /B /AD /S x64') DO RMDIR /S /Q "%%G"
-FOR /F "tokens=*" %%G IN ('DIR /B /AD /S bin') DO RMDIR /S /Q "%%G"
-FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
+@ECHO OFF
+
+rem /bin & /obj dirs are automagically recreated by Visual Studio
+rem but the command below will remove actual binaries (build products)
+
+for /r /d %%A in (bin,obj,arm,x86,x64,.vs) do if exist "%%A" ( 
+	echo removing "%%A"
+	RMDIR /S /Q "%%A"
+)
+
+@ECHO ON
